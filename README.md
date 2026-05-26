@@ -34,6 +34,27 @@ README context.
 
 ### 1. Codex
 
+**Codex Desktop plugin marketplace installation**
+
+This repository also includes Codex plugin packaging, so Codex Desktop users can
+install the complete Nature Skills bundle from the plugin marketplace instead of
+copying each skill folder manually.
+
+1. Open Codex Desktop and add a custom plugin marketplace.
+2. Use the marketplace source repository:
+   `https://github.com/Yuan1z0825/nature-skills.git`
+3. Use the branch/ref:
+   `main`
+4. Install the `nature-skills` plugin from that marketplace.
+5. The plugin skills should appear automatically after installation. If they do
+   not, refresh the plugin page or start a new Codex session.
+
+After installation, all `nature-*` skills are available through the plugin as a
+complete bundle. API users should use
+[BigPizzaV3/CodexPlusPlus](https://github.com/BigPizzaV3/CodexPlusPlus).
+
+**Manual local-skill installation**
+
 Codex can use these folders directly as local skills. This is the simplest installation path.
 
 **Clone the repo**
