@@ -8,8 +8,9 @@
 <table>
   <tr>
     <td align="center">
-      <b>6.17投资交流会</b><br>
-      <img width="500" alt="6.17投资交流会" src="https://github.com/user-attachments/assets/bfa8d4c4-2c99-4cb2-8534-db8dd45b3e0a" />
+      <b>视频教程请关注抖音</b><br>
+
+      <img width="500" alt="6.17投资交流会" src="https://github.com/user-attachments/assets/66679eba-5dea-4116-9fb1-9d3b436f6256" />
     </td>
     <td align="center">
       <b>个人微信</b><br>
