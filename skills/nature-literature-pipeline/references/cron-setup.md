@@ -25,40 +25,40 @@
 
 立即手动补跑小规模检索，使用 OpenAlex API，关键词包括：
 
-- `keyword1 keyword2 compound1 compound2`
-- `keyword3 keyword4 method1`
-- `keyword5 compound3 method2`
-- `keyword6 method3 method4`
+- `molten chloride salt corrosion MgCl2 KCl NaCl`
+- `molten chloride salt electrochemical monitoring corrosion`
+- `MgOHCl molten chloride salt corrosion`
+- `chloride salt purification electrochemical corrosion`
 - `institution keyword1 keyword2 author1 author2`
 
 筛出并推送 5 篇：
 
-1. Author A 2022 — impurity monitoring method for compound system，A 类。
-2. Author A 2022 — purified compound at 700 °C / alloy class，A 类。
-3. Author B 2024 — continuous purification method，A 类。
-4. Author C 2021 — dual electrode electrolytic purification，A 类。
+1. Gong & Ding 2022 — MgOHCl 低浓度腐蚀性杂质电化学监测，A 类。
+2. Gong 2022 — purified MgCl2-KCl-NaCl at 700 °C / Fe-based alloys，A 类。
+3. Witteman 2024 — 连续电化学纯化反应器，A 类。
+4. Ding 2021 — 双 Mg 电极连续电解纯化，A 类。
 5. Hao 2025 — Ni 基合金在 NaCl-KCl-MgCl2 中的 CA 腐蚀模拟，B 类。
 
 飞书补发成功：
 
-- target: `feishu:文献推送`
-- chat_id: `oc_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`（替换为你的群 chat_id）
+- target: `feishu:your-group-name`
+- chat_id: `oc_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
 - message_id: `om_x100b50dc2a1a40a8c108780f4171def`
 
 ## 归档结果
 
 写入 Obsidian raw 文献库：
 
-- `/vault/raw/literature/A_core/笔记/author2022_topic_monitoring.md`
-- `/vault/raw/literature/A_core/笔记/author2022_purified_compound_alloys_temp.md`
-- `/vault/raw/literature/A_core/笔记/author2024_continuous_purification.md`
-- `/vault/raw/literature/A_core/笔记/author2021_electrolytic_purification.md`
-- `/vault/raw/literature/B_supporting/笔记/author2025_alloy_system.md`
+- `/vault/raw/氯盐储能/文献/A_核心主线/笔记/gong2022_mgohcl_monitoring.md`
+- `/vault/raw/氯盐储能/文献/A_核心主线/笔记/gong2022_purified_mgcl2_fe_alloys_700c.md`
+- `/vault/raw/氯盐储能/文献/A_核心主线/笔记/witteman2024_continuous_electrochemical_purification.md`
+- `/vault/raw/氯盐储能/文献/A_核心主线/笔记/ding2021_continuous_electrolytic_purification_mg_electrodes.md`
+- `/vault/raw/氯盐储能/文献/B_章节支撑/笔记/hao2025_ca_ni_alloys_nacl_kcl_mgcl2.md`
 
 并尝试更新：
 
-- `/vault/raw/literature/A_core/references.ris`
-- `/vault/raw/literature/B_supporting/references.ris`
+- `/vault/raw/氯盐储能/文献/A_核心主线/references.ris`
+- `/vault/raw/氯盐储能/文献/B_章节支撑/references.ris`
 
 ## Lessons
 
