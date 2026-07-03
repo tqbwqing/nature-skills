@@ -10,6 +10,7 @@
 * **袁一哲**：`nature-skills` 创立者。
 * **马昕瑞**：本项目第二贡献者，现为东南大学土木工程学院博士研究生，主要专注于深度学习，以及使用 agent 在结构设计领域开展研究。
   * GitHub: [Travisma2233](https://github.com/Travisma2233)
+  * Email: [travisma2233@gmail.com](mailto:travisma2233@gmail.com)
   * Google Scholar: [Xin-Rui Ma](https://scholar.google.com/citations?user=CDydADoAAAAJ&hl=en)
   * ResearchGate: [Xin-Rui Ma](https://www.researchgate.net/profile/Xin-Rui-Ma?ev=hdr_xprf)
 
