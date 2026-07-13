@@ -205,8 +205,11 @@ https://github.com/Yuan1z0825/nature-skills.git
 
 ```bash
 python -m pip install -r skills/nature-paper-to-patent/requirements.txt
+python -m pip install -r skills/nature-paper-to-patent/scripts/disclosure/requirements-cnipa.txt  # 可选：国知局公布公告检索
 python -m pip install -r skills/nature-academic-search/mcp-server/requirements.txt
 ```
+
+如果启用 `nature-paper-to-patent` 的国知局公布公告检索，还需要执行 `python -m playwright install chromium`。
 
 `nature-academic-search` 的 MCP 服务还需要单独配置 `PUBMED_EMAIL`，Scopus / ScienceDirect 等可选 provider 需要使用本机凭据配置，不要把 API key 写入仓库文件。
 
@@ -276,7 +279,7 @@ OpenClaw、OpenCode、Hermes 的具体接入方式见 [OpenClaw / OpenCode / Her
 | [`nature-reader`](skills/nature-reader/README.md) | Beta | 生成带来源锚点、图文对应和中英文对照的全文 Markdown reader | “nature reader”, “全文 Markdown”, “原文对照”, “图文对应”, “全文翻译” | [详情](skills/nature-reader/README.md) |
 | [`nature-response`](skills/nature-response/README.md) | Beta | 解析返修邮件，起草、审查和修改返修 cover letter、逐点回复审稿人的 response letter、标红修改稿，并提供 LaTeX 模板 | “response to reviewers”, “rebuttal letter”, “cover letter”, “major revision”, “返修邮件”, “审稿意见回复”, “修回信”, “LaTeX 模板” | [详情](skills/nature-response/README.md) |
 | [`nature-paper2ppt`](skills/nature-paper2ppt/README.md) | Beta | 从科研论文生成中文 PPTX 文献汇报 deck | “paper PPT”, “journal club”, “paper to slides”, “论文汇报” | [详情](skills/nature-paper2ppt/README.md) |
-| [`nature-paper-to-patent`](skills/nature-paper-to-patent/README.md) | Beta | 从论文、技术报告或项目材料生成有证据约束的中国发明专利草稿 | “paper to patent”, “Chinese patent”, “论文转专利”, “权利要求书” | [详情](skills/nature-paper-to-patent/README.md) |
+| [`nature-paper-to-patent`](skills/nature-paper-to-patent/README.md) | Beta | 从论文、技术报告或项目材料生成有证据约束的中国发明专利草稿，并支持专利点挖掘、查新和技术交底书迭代 | “paper to patent”, “Chinese patent”, “论文转专利”, “权利要求书”, “技术交底书”, “专利点” | [详情](skills/nature-paper-to-patent/README.md) |
 | [`nature-ref-verifier`](skills/nature-ref-verifier/README.md) | Beta | 参考文献多源交叉验证：逐字段对比作者/标题/年份/卷期/页码，标记卷年冲突、作者编造、页码偏差等 | “verify refs”, “校验文献”, “check references”, “文献验证”, “ref check” | [详情](skills/nature-ref-verifier/README.md) |
 | [`nature-academic-search`](skills/nature-academic-search/README.md) | Beta | 多源文献检索、引用核验、严格他引审计、文章引用指标表、高影响力引用者画像和参考文献管理 | “search papers”, “find articles”, “literature search”, “查文献”, “verify DOI”, “严格他引”, “文章引用表”, “引用我的文章的人有没有大牛” | [详情](skills/nature-academic-search/README.md) |
 | [`nature-downloader`](skills/nature-downloader/README.md) | Beta | 通过图书馆资源入口、Chrome 登录态和开放获取路径合法获取学术全文/PDF | “download papers”, “图书馆下载文献”, “CARSI”, “Web of Science”, “PDF 下载” | [详情](skills/nature-downloader/README.md) |

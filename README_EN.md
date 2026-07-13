@@ -257,8 +257,11 @@ only when you need the corresponding scripts or MCP services:
 
 ```bash
 python -m pip install -r skills/nature-paper-to-patent/requirements.txt
+python -m pip install -r skills/nature-paper-to-patent/scripts/disclosure/requirements-cnipa.txt  # optional CNIPA published-patent search
 python -m pip install -r skills/nature-academic-search/mcp-server/requirements.txt
 ```
+
+If you enable `nature-paper-to-patent` CNIPA published-patent search, also run `python -m playwright install chromium`.
 
 `nature-academic-search` also requires `PUBMED_EMAIL`. Optional Scopus,
 ScienceDirect, and other provider credentials should be configured locally and
@@ -335,7 +338,7 @@ The current `skills/` directory contains the following triggerable skills.
 | [`nature-reader`](skills/nature-reader/README_EN.md) | Beta | Generate full-paper Markdown readers with source anchors, figure-text alignment, and Chinese-English side-by-side translation | "nature reader", "full Markdown", "source-aligned text", "figure-text alignment", "full translation" | [Details](skills/nature-reader/README_EN.md) |
 | [`nature-response`](skills/nature-response/README_EN.md) | Beta | Parse revision emails; draft, audit, and revise revision cover letters, point-by-point response letters, red-marked manuscripts, and LaTeX templates | "response to reviewers", "rebuttal letter", "cover letter", "major revision", "revision email", "reviewer-comment response", "LaTeX template" | [Details](skills/nature-response/README_EN.md) |
 | [`nature-paper2ppt`](skills/nature-paper2ppt/README_EN.md) | Beta | Generate Chinese PPTX journal-club or paper-presentation decks from research papers | "paper PPT", "journal club", "paper to slides", "paper presentation" | [Details](skills/nature-paper2ppt/README_EN.md) |
-| [`nature-paper-to-patent`](skills/nature-paper-to-patent/README_EN.md) | Beta | Generate evidence-constrained Chinese invention patent drafts from papers, technical reports, or project materials | "paper to patent", "Chinese patent", "paper-to-patent", "claims drafting" | [Details](skills/nature-paper-to-patent/README_EN.md) |
+| [`nature-paper-to-patent`](skills/nature-paper-to-patent/README_EN.md) | Beta | Generate evidence-constrained Chinese invention patent drafts and support patent-point mining, prior-art search, and iterative technical disclosure drafting | "paper to patent", "Chinese patent", "paper-to-patent", "claims drafting", "technical disclosure", "patent points" | [Details](skills/nature-paper-to-patent/README_EN.md) |
 | [`nature-ref-verifier`](skills/nature-ref-verifier/README_EN.md) | Beta | Cross-check references across multiple sources and flag author, title, year, volume, issue, and page inconsistencies | "verify refs", "check references", "reference verification", "ref check" | [Details](skills/nature-ref-verifier/README_EN.md) |
 | [`nature-academic-search`](skills/nature-academic-search/README_EN.md) | Beta | Multi-source literature search, citation verification, strict other-citation audits, article-level citation metric tables, influential citer profiling, and reference management | "search papers", "find articles", "literature search", "literature lookup", "verify DOI", "strict other citation", "article citation table", "influential citer" | [Details](skills/nature-academic-search/README_EN.md) |
 | [`nature-downloader`](skills/nature-downloader/README_EN.md) | Beta | Legally obtain academic full text/PDFs through library access, Chrome login state, and open-access routes | "download papers", "library paper download", "CARSI", "Web of Science", "PDF download" | [Details](skills/nature-downloader/README_EN.md) |
