@@ -9,6 +9,7 @@
 - Configure a school library, CARSI, EZproxy, WebVPN, or resource-portal entry point for first use.
 - Reuse the user's logged-in Chrome institutional session to download legally accessible PDFs.
 - Try to obtain full text from DOI, title, publisher page, PubMed page, or CNKI Chinese title.
+- When explicitly requested, use `--si` with an exact WoS title to download supplementary files into a clean per-article folder.
 - Save HTML/text or explain access status when no PDF is available.
 - Report why access failed: no permission, user login required, CAPTCHA, human verification, or missing holdings.
 
@@ -23,6 +24,7 @@
 - DOI, title, paper page link, or Chinese paper title.
 - Library database entry point or logged-in Chrome session.
 - Target output directory and naming preference.
+- Whether Supporting Information should also be downloaded; it is off by default.
 
 ## Outputs
 
