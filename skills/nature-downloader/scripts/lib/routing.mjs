@@ -28,6 +28,14 @@ export function isChineseLiterature({ title = "", language = "", sourceUrl = "",
   return looksChinese(title);
 }
 
+export function chooseDirectUrlRoute({ pdfUrl = "", title = "", language = "", sourceUrl = "", route = "" } = {}) {
+  if (isCnkiUrl(pdfUrl)) return { provider: "cnki", mode: "direct", reason: "explicit_cnki_url" };
+  if (route === "cnki" || isChineseLiterature({ title, language, sourceUrl })) {
+    return { provider: "cnki", mode: "title_search", reason: route === "cnki" ? "explicit_override" : "chinese_literature" };
+  }
+  return { provider: "direct_url", mode: "direct", reason: "explicit_pdf_url" };
+}
+
 export function chooseRoute(article = {}) {
   if (article.routeOverride) return { provider: article.routeOverride, reason: "explicit_override" };
   if (isChineseLiterature(article)) return { provider: "cnki", reason: "chinese_literature" };

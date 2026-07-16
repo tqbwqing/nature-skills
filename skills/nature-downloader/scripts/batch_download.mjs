@@ -58,11 +58,11 @@ import {
   createCnkiTransport,
   downloadCnkiDirectUrl,
   downloadCnkiTitle,
-  isCnkiUrl,
   looksChinese,
 } from "./lib/cnki.mjs";
 import {
   classifyPublisher,
+  chooseDirectUrlRoute,
   hasUsablePublisherCredentials,
   parseSiChoice,
   chooseRoute,
@@ -80,7 +80,7 @@ import { writeManifest } from "./lib/manifest.mjs";
 const WOS = DEFAULT_DISCOVERY_URL;
 
 export function parseArgs(argv) {
-  const a = { count: 10, out: ".", si: false, noSi: false, proxy: DEFAULT_PROXY, debug: false, legacyStatus: false };
+  const a = { out: ".", si: false, noSi: false, proxy: DEFAULT_PROXY, debug: false, legacyStatus: false };
   for (let i = 2; i < argv.length; i++) {
     const k = argv[i];
     if (k === "--topic") a.topic = argv[++i];
@@ -119,7 +119,13 @@ export function parseArgs(argv) {
   }
   parseSiChoice(a);
   if (!a.topic && !a.title && !a.pdfUrl && !a.dois?.length) throw new Error("one of --topic, --title, --pdf-url, or --dois is required");
+  if (a.topic && a.count === undefined) a.count = 10;
   return a;
+}
+
+export function selectBatchDois(dois = [], count) {
+  const unique = [...new Set(dois)];
+  return count === undefined ? unique : unique.slice(0, count);
 }
 
 function cnkiUrlFromConfig(config, argUrl) {
@@ -475,6 +481,31 @@ async function downloadArxivTitle(title, args) {
   return { ...downloaded, title: hit.title, arxiv: hit.id, route: "open_access", route_reason: "arxiv_exact_title", si_requested: args.si, ...(args.si ? { si: { status: "not_found" } } : {}) };
 }
 
+async function downloadCnkiByTitle(args, context) {
+  if (!args.title) {
+    return {
+      title: "",
+      status: STATUS.METADATA_AMBIGUOUS,
+      reason: "CNKI title search requires --title when --pdf-url is not a CNKI URL",
+      source: "cnki",
+    };
+  }
+  await context.ensureBrowser();
+  process.stderr.write(`[cnki] searching Chinese title: ${args.title}\n`);
+  return downloadCnkiTitle(args.proxy, args.title, args.out, {
+    cnkiUrl: context.cnkiUrl,
+    format: args.cnkiFormat || "any",
+    debug: args.debug,
+    wantSi: args.si,
+    transport: context.cnkiTransport,
+  }).catch((error) => ({
+    title: args.title,
+    status: STATUS.FAILED_AFTER_RETRY,
+    err: String(error).slice(0, 120),
+    source: "cnki",
+  }));
+}
+
 function attemptSummary(result, provider) {
   if (!result) return null;
   return {
@@ -672,10 +703,17 @@ async function main() {
   });
 
   if (args.pdfUrl) {
-    if (isCnkiUrl(args.pdfUrl)) {
+    const directRoute = chooseDirectUrlRoute(args);
+    if (directRoute.mode === "title_search") {
+      const cnki = await downloadCnkiByTitle(args, context);
+      results.push({ ...cnki, route: "cnki", route_reason: directRoute.reason, si_requested: args.si });
+      outputAndManifest(args, results, t0);
+      return;
+    }
+    if (directRoute.provider === "cnki") {
       await ensureBrowser();
       const cnki = await downloadCnkiDirectUrl(args.proxy, args.pdfUrl, args.title || "cnki-paper", args.out, { debug: args.debug, wantSi: args.si });
-      results.push({ ...cnki, route: "cnki", route_reason: "explicit_cnki_url", si_requested: args.si });
+      results.push({ ...cnki, route: "cnki", route_reason: directRoute.reason, si_requested: args.si });
       outputAndManifest(args, results, t0);
       return;
     }
@@ -691,20 +729,7 @@ async function main() {
   }
 
   if (args.title && (isChineseLiterature({ title: args.title, language: args.language, sourceUrl: args.sourceUrl }) || args.route === "cnki") && !args.topic) {
-    await ensureBrowser();
-    process.stderr.write(`[cnki] searching Chinese title: ${args.title}\n`);
-    const r = await downloadCnkiTitle(args.proxy, args.title, args.out, {
-      cnkiUrl,
-      format: args.cnkiFormat || "any",
-      debug: args.debug,
-      wantSi: args.si,
-      transport: context.cnkiTransport,
-    }).catch((e) => ({
-      title: args.title,
-      status: STATUS.FAILED_AFTER_RETRY,
-      err: String(e).slice(0, 120),
-      source: "cnki",
-    }));
+    const r = await downloadCnkiByTitle(args, context);
     results.push({ ...r, route: "cnki", route_reason: "chinese_literature", si_requested: args.si });
     outputAndManifest(args, results, t0);
     return;
@@ -768,7 +793,7 @@ async function main() {
       }
     }
   }
-  dois = [...new Set(dois)].slice(0, args.count);
+  dois = selectBatchDois(dois, args.count);
 
   for (const doi of dois) {
     const r = await routeDoiDownload(doi, args, context).catch((e) => {

@@ -2,6 +2,7 @@ import { describe, test } from "node:test";
 import assert from "node:assert/strict";
 import {
   classifyPublisher,
+  chooseDirectUrlRoute,
   chooseRoute,
   hasUsablePublisherCredentials,
   parseSiChoice,
@@ -30,6 +31,24 @@ describe("literature routing", () => {
     assert.equal(chooseRoute({ title: "乡村振兴研究", isOa: true, publisher: "Elsevier" }).provider, "cnki");
     assert.equal(chooseRoute({ language: "zh", doi: "10.1016/example", isOa: false }).provider, "cnki");
     assert.equal(chooseRoute({ sourceUrl: "https://kns.cnki.net/kcms/detail/detail.aspx?filename=x" }).provider, "cnki");
+  });
+
+  test("does not let a non-CNKI PDF URL bypass Chinese routing", () => {
+    assert.deepEqual(chooseDirectUrlRoute({
+      pdfUrl: "https://example.org/paper.pdf",
+      title: "乡村振兴研究",
+    }), { provider: "cnki", mode: "title_search", reason: "chinese_literature" });
+    assert.deepEqual(chooseDirectUrlRoute({
+      pdfUrl: "https://example.org/paper.pdf",
+      language: "zh-CN",
+    }), { provider: "cnki", mode: "title_search", reason: "chinese_literature" });
+  });
+
+  test("keeps CNKI direct URLs on the direct CNKI path", () => {
+    assert.deepEqual(chooseDirectUrlRoute({
+      pdfUrl: "https://kns.cnki.net/kcms/detail/detail.aspx?filename=x",
+      title: "乡村振兴研究",
+    }), { provider: "cnki", mode: "direct", reason: "explicit_cnki_url" });
   });
 
   test("routes supported publishers with credentials to their API before OA", () => {

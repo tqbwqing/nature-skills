@@ -5,7 +5,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { parseArgs } from "../../scripts/batch_download.mjs";
+import { parseArgs, selectBatchDois } from "../../scripts/batch_download.mjs";
 
 describe("batch CLI contract", () => {
   test("does not create an output directory before SI is confirmed", () => {
@@ -44,5 +44,35 @@ describe("batch CLI contract", () => {
     ]);
     assert.equal(args.pdfUrl, "https://example.org/paper.pdf");
     assert.equal(args.title, "Example Paper");
+  });
+
+  test("does not silently truncate an explicit DOI list", () => {
+    const dois = Array.from({ length: 12 }, (_, index) => `10.1234/item-${index + 1}`);
+    const args = parseArgs([
+      "node", "batch_download.mjs", "--dois", dois.join(","), "--no-si",
+    ]);
+    assert.equal(args.count, undefined);
+    assert.deepEqual(selectBatchDois(args.dois, args.count), dois);
+  });
+
+  test("keeps the topic default and honors an explicit DOI count", () => {
+    const topic = parseArgs(["node", "batch_download.mjs", "--topic", "rice", "--no-si"]);
+    assert.equal(topic.count, 10);
+    assert.deepEqual(selectBatchDois(["a", "b", "c"], 2), ["a", "b"]);
+  });
+
+  test("requires a title for a zh non-CNKI PDF route without touching the network", () => {
+    const parent = fs.mkdtempSync(path.join(os.tmpdir(), "cnki-title-required-"));
+    const script = fileURLToPath(new URL("../../scripts/batch_download.mjs", import.meta.url));
+    const run = spawnSync(process.execPath, [
+      script,
+      "--pdf-url", "https://example.org/paper.pdf",
+      "--language", "zh",
+      "--no-si",
+      "--out", parent,
+    ], { encoding: "utf8" });
+    assert.equal(run.status, 0);
+    assert.match(run.stdout, /metadata_ambiguous/);
+    assert.match(run.stdout, /CNKI title search requires --title/);
   });
 });
