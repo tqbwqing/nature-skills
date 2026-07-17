@@ -56,7 +56,7 @@
 |---|---|---|---|
 | **袁一哲** | 创始人 / 维护者 | 项目发起、技能体系设计与社区运营 | — |
 | **马昕瑞** | 核心开发者 | Skills 日常维护 | [Gmail](mailto:travisma2233@gmail.com) |
-| **胡彬** | 主要贡献者 | Agentic Agent 与 AI for Science | [GitHub](https://github.com/Flyme886) · [Email](mailto:mhoang12205@gmail.com) |
+| **胡彬** | 主要贡献者 | Agentic Agent | [GitHub](https://github.com/Flyme886) · [Email](mailto:mhoang12205@gmail.com) |
 
 ## 3. 项目理念与社区
 
