@@ -9,9 +9,14 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: update-star-history-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   update-star-history:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
